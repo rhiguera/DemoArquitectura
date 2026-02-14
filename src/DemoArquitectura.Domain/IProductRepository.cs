@@ -1,13 +1,12 @@
-using System.Collections.Generic;
+using DemoArquitectura.Domain.Entities;
 
-namespace DemoArquitectura.Domain
+namespace DemoArquitectura.Domain.Repositories;
+
+public interface IProductRepository
 {
-    public interface IProductRepository
-    {
-        IEnumerable<Product> GetAll();
-        Product GetById(Guid id);
-        void Add(Product product);
-        void Update(Product product);
-        void Delete(Guid id);
-    }
+    Task<IEnumerable<Product>> GetAllAsync();
+    Task<Product?> GetByIdAsync(int id);
+    Task<Product> AddAsync(Product product);
+    Task<Product> UpdateAsync(Product product);
+    Task<bool> DeleteAsync(int id);
 }

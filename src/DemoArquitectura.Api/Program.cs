@@ -1,7 +1,7 @@
 using DemoArquitectura.Application;
 using DemoArquitectura.Infrastructure;
 
-var builder = WebApplicationBuilder.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
