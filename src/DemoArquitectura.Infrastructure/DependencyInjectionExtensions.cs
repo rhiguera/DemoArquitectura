@@ -8,7 +8,7 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        services.AddScoped<IProductRepository, InMemoryProductRepository>();
+        services.AddSingleton<IProductRepository, InMemoryProductRepository>();
         return services;
     }
 }
