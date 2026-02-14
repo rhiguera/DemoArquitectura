@@ -90,6 +90,35 @@ DemoArquitectura/
 dotnet test
 ```
 
+### Cobertura de Pruebas
+
+El proyecto incluye **20 pruebas unitarias** que cubren:
+
+#### ProductServiceTests (8 pruebas)
+- Creación de productos con datos válidos
+- Obtención de todos los productos
+- Búsqueda de producto por ID
+- Actualización de productos
+- Eliminación de productos
+- Manejo de casos de error (ID inválido, producto no encontrado)
+
+#### InMemoryProductRepositoryTests (9 pruebas)
+- Agregar productos al repositorio
+- Obtener todos los productos
+- Búsqueda por ID
+- Actualización de productos existentes y no existentes
+- Eliminación de productos
+- Persistencia de datos entre llamadas
+- Manejo de excepciones
+
+#### DependencyInjectionTests (3 pruebas)
+- Registro correcto de ProductService
+- Registro correcto de ProductRepository
+- Verificación de Singleton para el repositorio
+- Configuración completa del contenedor de DI
+
+**Resultado**: ✅ 20/20 pruebas pasadas exitosamente
+
 ## Patrones y Principios Utilizados
 
 - **Repository Pattern**: Abstracción del acceso a datos
@@ -97,6 +126,7 @@ dotnet test
 - **SOLID Principles**: Principios de diseño de software
 - **Clean Architecture**: Separación de responsabilidades
 - **DTOs**: Transferencia de datos entre capas
+- **Unit Testing**: Pruebas automatizadas con xUnit y Moq
 
 ## Autor
 
