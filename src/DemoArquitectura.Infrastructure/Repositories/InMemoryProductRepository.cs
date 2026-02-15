@@ -13,7 +13,7 @@ public class InMemoryProductRepository : IProductRepository
         return Task.FromResult(_products.AsEnumerable());
     }
 
-    public Task<Product?> GetByIdAsync(int id)
+    public Task<Product> GetByIdAsync(int id)
     {
         var product = _products.FirstOrDefault(p => p.Id == id);
         return Task.FromResult(product);

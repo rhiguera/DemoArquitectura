@@ -19,7 +19,7 @@ public class ProductService : IProductService
         return products.Select(MapToDto);
     }
 
-    public async Task<ProductDto?> GetProductByIdAsync(int id)
+    public async Task<ProductDto> GetProductByIdAsync(int id)
     {
         var product = await _productRepository.GetByIdAsync(id);
         return product != null ? MapToDto(product) : null;
@@ -39,7 +39,7 @@ public class ProductService : IProductService
         return MapToDto(createdProduct);
     }
 
-    public async Task<ProductDto?> UpdateProductAsync(UpdateProductDto updateProductDto)
+    public async Task<ProductDto> UpdateProductAsync(UpdateProductDto updateProductDto)
     {
         var product = await _productRepository.GetByIdAsync(updateProductDto.Id);
         if (product == null)
