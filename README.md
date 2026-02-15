@@ -15,6 +15,79 @@ DemoArquitectura/
     └── DemoArquitectura.Tests/        # Pruebas unitarias
 ```
 
+## Dependencias entre Proyectos
+
+### Diagrama de Dependencias
+
+```
+                    DemoArquitectura.Api
+                           ↓
+              (usa servicios y ext. DI)
+                           ↓
+        DemoArquitectura.Application ◄─────┐
+                    ↓                       │
+            (implementa interfaces)   (registra servicios)
+                    ↓                       │
+        DemoArquitectura.Domain       Infrastructure
+                                       (implementa)
+                                           ↓
+                            DemoArquitectura.Tests
+                            (prueba todos los anteriores)
+```
+
+### Tabla de Dependencias
+
+| Proyecto | Dependencias | Descripción |
+|----------|--------------|-------------|
+| **Api** | Application, Infrastructure | Expone servicios como endpoints REST |
+| **Application** | Domain | Define servicios e interfaces usadas por la API |
+| **Infrastructure** | Domain | Implementa repositorios e inyección de dependencias |
+| **Domain** | (ninguna) | No depende de otros proyectos (núcleo puro) |
+| **Tests** | Application, Infrastructure, Domain | Prueba todas las capas |
+
+### Referencias de Proyectos (.csproj)
+
+**DemoArquitectura.Api.csproj**:
+```xml
+<ProjectReference Include="..\DemoArquitectura.Application\DemoArquitectura.Application.csproj" />
+<ProjectReference Include="..\DemoArquitectura.Infrastructure\DemoArquitectura.Infrastructure.csproj" />
+```
+
+**DemoArquitectura.Application.csproj**:
+```xml
+<ProjectReference Include="..\DemoArquitectura.Domain\DemoArquitectura.Domain.csproj" />
+```
+
+**DemoArquitectura.Infrastructure.csproj**:
+```xml
+<ProjectReference Include="..\DemoArquitectura.Domain\DemoArquitectura.Domain.csproj" />
+```
+
+**DemoArquitectura.Tests.csproj**:
+```xml
+<ProjectReference Include="..\..\src\DemoArquitectura.Application\DemoArquitectura.Application.csproj" />
+<ProjectReference Include="..\..\src\DemoArquitectura.Domain\DemoArquitectura.Domain.csproj" />
+<ProjectReference Include="..\..\src\DemoArquitectura.Infrastructure\DemoArquitectura.Infrastructure.csproj" />
+```
+
+### Flujo de Dependencias
+
+1. **Domain** → Punto de partida, sin dependencias externas
+2. **Application** → Depende de Domain para usar entidades e interfaces
+3. **Infrastructure** → Depende de Domain para implementar repositorios
+4. **Api** → Depende de Application e Infrastructure
+5. **Tests** → Verifica todos los anteriores
+
+### Paquetes NuGet por Proyecto
+
+| Proyecto | NuGet Packages | Versión |
+|----------|--------|---------|
+| Domain | (ninguno) | - |
+| Application | Microsoft.Extensions.DependencyInjection.Abstractions | 8.0.0 |
+| Infrastructure | Microsoft.Extensions.DependencyInjection.Abstractions | 8.0.0 |
+| Api | Swashbuckle.AspNetCore | 6.4.0 |
+| Tests | xunit, Moq, Microsoft.Extensions.DependencyInjection | 2.6.6, 4.20.70, 8.0.0 |
+
 ## Tecnologías Utilizadas
 
 - **.NET 8**: Framework para aplicaciones de escritorio y web
