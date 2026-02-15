@@ -6,6 +6,12 @@
 
 // Elementos del DOM
 const DOM = {
+    // Formulario
+    productForm: document.getElementById('productForm'),
+    formError: document.getElementById('formError'),
+    formSuccess: document.getElementById('formSuccess'),
+    
+    // Tabla de productos
     loading: document.getElementById('loading'),
     error: document.getElementById('error'),
     table: document.getElementById('productsTable'),
@@ -17,7 +23,55 @@ const DOM = {
  * Inicializa la aplicación
  */
 function initApp() {
+    // Cargar productos
     loadProducts();
+    
+    // Configurar event listener del formulario
+    DOM.productForm.addEventListener('submit', handleProductFormSubmit);
+}
+
+/**
+ * Maneja el envío del formulario de creación de producto
+ * @param {Event} e - Evento del formulario
+ */
+async function handleProductFormSubmit(e) {
+    e.preventDefault();
+    
+    try {
+        hideFormMessages();
+        
+        // Obtener datos del formulario
+        const formData = new FormData(DOM.productForm);
+        const productData = {
+            name: formData.get('name').trim(),
+            description: formData.get('description').trim(),
+            price: parseFloat(formData.get('price'))
+        };
+        
+        // Validaciones básicas
+        if (!productData.name || !productData.description || productData.price < 0) {
+            showFormError('Por favor completa todos los campos correctamente');
+            return;
+        }
+        
+        // Crear el producto
+        const createdProduct = await API.createProduct(productData);
+        
+        // Mostrar mensaje de éxito
+        showFormSuccess(`Producto "${productData.name}" creado exitosamente`);
+        
+        // Limpiar formulario
+        DOM.productForm.reset();
+        
+        // Recargar lista de productos
+        setTimeout(() => {
+            loadProducts();
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Error al crear producto:', error);
+        showFormError(`Error al crear el producto: ${error.message}`);
+    }
 }
 
 /**
@@ -57,7 +111,6 @@ function renderProducts(products) {
             <td>${escapeHtml(product.name)}</td>
             <td>${escapeHtml(product.description)}</td>
             <td class="price">$${formatPrice(product.price)}</td>
-            <td class="date">${formatDate(product.createdDate)}</td>
         `;
         DOM.tableBody.appendChild(row);
     });
@@ -104,6 +157,34 @@ function hideError() {
 }
 
 /**
+ * Muestra un mensaje de error del formulario
+ * @param {string} message - Mensaje de error
+ */
+function showFormError(message) {
+    DOM.formError.textContent = message;
+    DOM.formError.style.display = 'block';
+    DOM.formSuccess.style.display = 'none';
+}
+
+/**
+ * Muestra un mensaje de éxito del formulario
+ * @param {string} message - Mensaje de éxito
+ */
+function showFormSuccess(message) {
+    DOM.formSuccess.textContent = message;
+    DOM.formSuccess.style.display = 'block';
+    DOM.formError.style.display = 'none';
+}
+
+/**
+ * Oculta todos los mensajes del formulario
+ */
+function hideFormMessages() {
+    DOM.formError.style.display = 'none';
+    DOM.formSuccess.style.display = 'none';
+}
+
+/**
  * Muestra el estado vacío
  */
 function showEmptyState() {
@@ -120,22 +201,6 @@ function showEmptyState() {
  */
 function formatPrice(price) {
     return parseFloat(price).toFixed(2);
-}
-
-/**
- * Formatea una fecha ISO al formato local
- * @param {string} dateString - Fecha en formato ISO
- * @returns {string} - Fecha formateada
- */
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
 }
 
 /**
