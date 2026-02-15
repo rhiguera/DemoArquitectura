@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DemoArquitectura - Productos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gestión de Productos</h1>
+            <p class="subtitle">API REST - DemoArquitectura</p>
+        </header>
+
+        <main>
+            <section class="content">
+                <h2>Lista de Productos</h2>
+                
+                <div id="loading" class="loading">
+                    Cargando productos...
+                </div>
+
+                <div id="error" class="error" style="display: none;"></div>
+
+                <table id="productsTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Fecha de Creación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsBody">
+                    </tbody>
+                </table>
+
+                <div id="emptyState" style="display: none;" class="empty-state">
+                    <p>No hay productos disponibles</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 DemoArquitectura - Arquitectura Limpia con .NET 8</p>
+        </footer>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

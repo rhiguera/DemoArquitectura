@@ -11,9 +11,22 @@ DemoArquitectura/
 │   ├── DemoArquitectura.Application/  # Lógica de aplicación (servicios)
 │   ├── DemoArquitectura.Domain/       # Entidades y especificaciones
 │   └── DemoArquitectura.Infrastructure/ # Implementaciones de repositorios
-└── tests/
-    └── DemoArquitectura.Tests/        # Pruebas unitarias
+├── tests/
+│   └── DemoArquitectura.Tests/        # Pruebas unitarias
+├── web/
+│   ├── index.html                     # Página principal
+│   ├── css/styles.css                 # Estilos
+│   ├── js/api.js                      # Cliente API (vanilla JS)
+│   ├── js/app.js                      # Lógica de la aplicación
+│   └── README.md                      # Documentación del proyecto web
+└── DemoArquitectura.sln               # Solución Visual Studio
 ```
+
+## Descripción de Carpetas
+
+- **src/** - Proyectos .NET (Backend)
+- **tests/** - Pruebas unitarias
+- **web/** - Interfaz web (Frontend vanilla JavaScript)
 
 ## Dependencias entre Proyectos
 
